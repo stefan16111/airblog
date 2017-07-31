@@ -1,0 +1,4 @@
+airblog:
+    resource: "@AirblogBundle/Controller/"
+    type:     annotation
+    prefix:   /
