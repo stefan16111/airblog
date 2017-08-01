@@ -10,8 +10,12 @@
 
         {% block stylesheet %}
             <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>     
-            <link rel="stylesheet" href="{{ asset('bundles/Airblog/css/normalize.css') }}">
-            <link rel="stylesheet" href="{{ asset('bundles/Airblog/css/main.css') }}">
+
+            {% stylesheets 'bundles/Airblog/css/normalize.css' 
+                           'bundles/Airblog/css/main.css'
+                            filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}">
+            {% endstylesheets %}
         {% endblock %}
     </head>
     <body>        
@@ -83,7 +87,7 @@
             <div class="content">
                 <div class="pos-center">
                 {% block content %}{% endblock %}
-     
+
                 {% if hideSidebar is not defined %}
                     <div class="right-side sidebar">
                         <div class="menu">
@@ -152,10 +156,15 @@
         </div>
     </footer>
     {% block javascripts %}
-        <script src="{{ asset('bundles/Airblog/js/vendor/jquery-1.10.2.min.js') }}"></script>
-        <script src="{{ asset('bundles/Airblog/js/vendor/jquery.responsiSlider.js') }}"></script>
-        <script src="{{ asset('bundles/Airblog/js/plugins.js') }}"></script>
-        <script src="{{ asset('bundles/Airblog/js/main.js') }}"></script>
+        
+        {% javascripts
+            '@AirblogBundle/Resources/public/js/vendor/jquery-1.10.2.min.js'
+            '@AirblogBundle/Resources/public/js/vendor/*'
+            '@AirblogBundle/Resources/public/js/plugins.js'
+            '@AirblogBundle/Resources/public/js/main.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        
     {% endblock %}
 </body>
 </html>
