@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class PagesController extends Controller
 {
     /**
+     * @Route("/about", name = "blog_about")
      * @Template()
      */
     public function aboutAction()
@@ -17,6 +18,7 @@ class PagesController extends Controller
     }
     
     /**
+     * @Route("/contact", name = "blog_contact")
      * @Template()
      */
     public function contactAction()

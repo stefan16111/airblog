@@ -9,22 +9,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class PostsController extends Controller
 {
     /**
+     * @Route("/{page}", name = "blog_index", defaults = {"page" = 1}, requirements = {"page" = "\d+"})
+     * 
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($page)
     {
         return array();
     }
     
     /**
+     * @Route("/{slug}", name = "blog_post")
      * @Template()
      */
-    public function postAction()
+    public function postAction($slug)
     {
         return array();
     }
     
     /**
+     * @Route("/category/{slub}/{page}", name = "blog_category", defaults = {"page" = 1}, requirements = {"page" = "\d+"})
      * @Template()
      */
     public function categoryAction()
@@ -33,9 +37,10 @@ class PostsController extends Controller
     }
     
     /**
+     * @Route("/tag/{slug}/{page}", name = "blog_tag", defaults = {"page" = 1}, requirements = {"page" = "\d+"})
      * @Template()
      */
-    public function tagAction()
+    public function tagAction($slug)
     {
         return array();
     }

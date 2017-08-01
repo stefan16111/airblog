@@ -1,4 +1,3 @@
 airblog:
-    resource: "@AirblogBundle/Controller/"
-    type:     annotation
+    resource: "@AirblogBundle/Resources/config/routing.yml"
     prefix:   /

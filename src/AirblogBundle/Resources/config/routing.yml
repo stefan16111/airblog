@@ -1,0 +1,10 @@
+airblog_pages:
+    resource: "@AirblogBundle/Controller/PagesController.php"
+    type:     annotation
+    prefix:   /
+    
+airblog_posts:
+    resource: "@AirblogBundle/Controller/PostsController.php"
+    type:     annotation
+    prefix:   /
+
