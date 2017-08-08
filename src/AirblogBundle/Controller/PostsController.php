@@ -36,7 +36,7 @@ class PostsController extends Controller {
     public function searchAction(\Symfony\Component\HttpFoundation\Request $request, $page) {
 
         $searchParam = $request->query->get('search');
-        
+
         $pagination = $this->getPaginatedPosts([
             'status' => 'published',
             'orderBy' => 'p.publishedDate',
@@ -55,7 +55,16 @@ class PostsController extends Controller {
      * @Template()
      */
     public function postAction($slug) {
-        return array();
+
+        $postRepo = $this->getDoctrine()->getRepository('AirblogBundle:Post');
+
+        $Post = $postRepo->getPublishedPost($slug);
+
+        if (null === $Post) {
+            throw $this->createNotFoundException('Post nie został odnaleziony');
+        }
+
+        return array('post' => $Post);
     }
 
     /**

@@ -5,6 +5,16 @@ namespace AirblogBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
 class PostRepository extends EntityRepository {
+    
+    public function getPublishedPost($slug) {
+        $qb = $this->getQueryBuilder(array(
+            'status' => 'published'
+        ));
+        $qb->andWhere('p.slug = :slug' )
+                ->setParameter('slug', $slug);
+        
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 
     public function getQueryBuilder(array $params = array()) {
 
