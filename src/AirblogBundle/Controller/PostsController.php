@@ -21,10 +21,32 @@ class PostsController extends Controller {
             'status' => 'published',
             'orderBy' => 'p.publishedDate',
             'orderDir' => 'DESC',
-        ], $page);
+                ], $page);
 
         return ['pagination' => $pagination,
             'listTitle' => 'Najnowsze wpisy'
+        ];
+    }
+
+    /**
+     * @Route("/search/{page}", name = "blog_search", defaults = {"page" = 1}, requirements = {"page" = "\d+"})
+     * 
+     * @Template("AirblogBundle:Posts:postList.html.twig")
+     */
+    public function searchAction(\Symfony\Component\HttpFoundation\Request $request, $page) {
+
+        $searchParam = $request->query->get('search');
+        
+        $pagination = $this->getPaginatedPosts([
+            'status' => 'published',
+            'orderBy' => 'p.publishedDate',
+            'orderDir' => 'DESC',
+            'search' => $searchParam,
+                ], $page);
+
+        return ['pagination' => $pagination,
+            'listTitle' => sprintf('Wyniki wyszukiwania frazy "%s" ', $searchParam),
+            'searchParam' => $searchParam
         ];
     }
 
@@ -47,7 +69,7 @@ class PostsController extends Controller {
             'orderBy' => 'p.publishedDate',
             'orderDir' => 'DESC',
             'categorySlug' => $slug,
-        ], $page);
+                ], $page);
 
         $CategoryRepo = $this->getDoctrine()->getRepository('AirblogBundle:Category');
         $Category = $CategoryRepo->findOneBySlug($slug);
@@ -71,20 +93,20 @@ class PostsController extends Controller {
             'orderBy' => 'p.publishedDate',
             'orderDir' => 'DESC',
             'tagSlug' => $slug,
-        ], $page);
+                ], $page);
 
         return ['pagination' => $pagination,
             'listTitle' => sprintf('Wpisy z tagiem %s', $Tag->getName())
         ];
     }
 
-    protected function getPaginatedPosts(array $parms = array(), $page) {
+    protected function getPaginatedPosts(array $parms = [], $page) {
         $PostRepo = $this->getDoctrine()->getRepository('AirblogBundle:Post');
         $qb = $PostRepo->getQueryBuilder($parms);
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($qb, $page, $this->itemsLimit);
-        
+
         return $pagination;
     }
 
