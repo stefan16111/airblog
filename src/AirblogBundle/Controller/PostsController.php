@@ -6,57 +6,86 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class PostsController extends Controller
-{
+class PostsController extends Controller {
+
     protected $itemsLimit = 3;
-    
+
     /**
      * @Route("/{page}", name = "blog_index", defaults = {"page" = 1}, requirements = {"page" = "\d+"})
      * 
-     * @Template()
+     * @Template("AirblogBundle:Posts:postList.html.twig")
      */
-    public function indexAction($page)
-    {
-        $PostRepo = $this->getDoctrine()->getRepository('AirblogBundle:Post');
-        //$allposts = $PostRepo->findBy(array(), array('publishedDate' => 'desc'));
-        
-        $qb = $PostRepo->getQueryBuilder(array(
+    public function indexAction($page) {
+
+        $pagination = $this->getPaginatedPosts([
             'status' => 'published',
             'orderBy' => 'p.publishedDate',
-            'orderDir' => 'DESC'
-            ));
-        
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($qb, $page, $this->itemsLimit);
-        
+            'orderDir' => 'DESC',
+        ], $page);
+
         return ['pagination' => $pagination,
-            ];
+            'listTitle' => 'Najnowsze wpisy'
+        ];
     }
-    
+
     /**
      * @Route("/{slug}", name = "blog_post")
      * @Template()
      */
-    public function postAction($slug)
-    {
+    public function postAction($slug) {
         return array();
     }
-    
+
     /**
-     * @Route("/category/{slub}/{page}", name = "blog_category", defaults = {"page" = 1}, requirements = {"page" = "\d+"})
-     * @Template()
+     * @Route("/category/{slug}/{page}", name = "blog_category", defaults = {"page" = 1}, requirements = {"page" = "\d+"})
+     * @Template("AirblogBundle:Posts:postList.html.twig")
      */
-    public function categoryAction()
-    {
-        return array();
+    public function categoryAction($slug, $page) {
+
+        $pagination = $this->getPaginatedPosts([
+            'status' => 'published',
+            'orderBy' => 'p.publishedDate',
+            'orderDir' => 'DESC',
+            'categorySlug' => $slug,
+        ], $page);
+
+        $CategoryRepo = $this->getDoctrine()->getRepository('AirblogBundle:Category');
+        $Category = $CategoryRepo->findOneBySlug($slug);
+
+        return ['pagination' => $pagination,
+            'listTitle' => sprintf('Wpisy w kategorii %s', $Category->getName())
+        ];
     }
-    
+
     /**
      * @Route("/tag/{slug}/{page}", name = "blog_tag", defaults = {"page" = 1}, requirements = {"page" = "\d+"})
-     * @Template()
+     * @Template("AirblogBundle:Posts:postList.html.twig")
      */
-    public function tagAction($slug)
-    {
-        return array();
+    public function tagAction($slug, $page) {
+
+        $TagRepo = $this->getDoctrine()->getRepository('AirblogBundle:Tag');
+        $Tag = $TagRepo->findOneBySlug($slug);
+
+        $pagination = $this->getPaginatedPosts([
+            'status' => 'published',
+            'orderBy' => 'p.publishedDate',
+            'orderDir' => 'DESC',
+            'tagSlug' => $slug,
+        ], $page);
+
+        return ['pagination' => $pagination,
+            'listTitle' => sprintf('Wpisy z tagiem %s', $Tag->getName())
+        ];
     }
+
+    protected function getPaginatedPosts(array $parms = array(), $page) {
+        $PostRepo = $this->getDoctrine()->getRepository('AirblogBundle:Post');
+        $qb = $PostRepo->getQueryBuilder($parms);
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($qb, $page, $this->itemsLimit);
+        
+        return $pagination;
+    }
+
 }

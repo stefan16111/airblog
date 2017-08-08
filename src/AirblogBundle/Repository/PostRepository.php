@@ -22,12 +22,22 @@ class PostRepository extends EntityRepository {
                         ->setParameter('currDate', new \DateTime());
             }
         }
-        
-        if(!empty($params['orderBy'])){
+
+        if (!empty($params['orderBy'])) {
             $orderDir = !empty($params['orderDir']) ? $params['orderDir'] : NULL;
             $qb->orderBy($params['orderBy'], $orderDir);
         }
-        
+
+        if (!empty($params['categorySlug'])) {
+            $qb->andWhere('c.slug = :categorySlug')
+                    ->setParameter('categorySlug', $params['categorySlug']);
+        }
+
+        if (!empty($params['tagSlug'])) {
+            $qb->andWhere('t.slug = :tagSlug')
+                    ->setParameter('tagSlug', $params['tagSlug']);
+        }
+
         return $qb;
     }
 
