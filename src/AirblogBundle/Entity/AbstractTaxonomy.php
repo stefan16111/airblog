@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\MappedSuperclass
+ * @ORM\HasLifecycleCallbacks
  */
 abstract class AbstractTaxonomy {
 
@@ -27,14 +28,49 @@ abstract class AbstractTaxonomy {
     private $slug;
     protected $posts;
 
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add posts
+     *
+     * @param \AirblogBundle\Entity\Post $posts
+     * @return Category
+     */
+    public function addPost(\AirblogBundle\Entity\Post $posts) {
+        $this->posts[] = $posts;
+
+        return $this;
+    }
+
+    /**
+     * Remove posts
+     *
+     * @param \AirblogBundle\Entity\Post $posts
+     */
+    public function removePost(\AirblogBundle\Entity\Post $posts) {
+        $this->posts->removeElement($posts);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPosts() {
+        return $this->posts;
+    }
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -44,8 +80,7 @@ abstract class AbstractTaxonomy {
      * @param string $name
      * @return AbstractTaxonomy
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -56,8 +91,7 @@ abstract class AbstractTaxonomy {
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -67,9 +101,8 @@ abstract class AbstractTaxonomy {
      * @param string $slug
      * @return AbstractTaxonomy
      */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
+    public function setSlug($slug) {
+        $this->slug = \AirblogBundle\Libs\Utils::sluggify($slug);
 
         return $this;
     }
@@ -79,8 +112,18 @@ abstract class AbstractTaxonomy {
      *
      * @return string 
      */
-    public function getSlug()
-    {
+    public function getSlug() {
         return $this->slug;
     }
+    
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function preSave() {
+        if($this->slug == null){
+            $this->setSlug($this->getName());
+        }
+    }
+
 }

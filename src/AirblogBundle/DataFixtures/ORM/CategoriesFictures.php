@@ -21,8 +21,7 @@ class CategoryFixtures extends AbstractFixture implements OrderedFixtureInterfac
 
         foreach ($categoriesList as $key => $name) {
             $Category = new Category();
-            $Category->setName($name)
-                    ->setSlug($name);
+            $Category->setName($name);
 
             $manager->persist($Category);
             $this->addReference('category_'.$key, $Category);

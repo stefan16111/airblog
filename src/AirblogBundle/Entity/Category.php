@@ -15,44 +15,4 @@ class Category extends AbstractTaxonomy {
      */
     protected $posts;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add posts
-     *
-     * @param \AirblogBundle\Entity\Post $posts
-     * @return Category
-     */
-    public function addPost(\AirblogBundle\Entity\Post $posts)
-    {
-        $this->posts[] = $posts;
-
-        return $this;
-    }
-
-    /**
-     * Remove posts
-     *
-     * @param \AirblogBundle\Entity\Post $posts
-     */
-    public function removePost(\AirblogBundle\Entity\Post $posts)
-    {
-        $this->posts->removeElement($posts);
-    }
-
-    /**
-     * Get posts
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPosts()
-    {
-        return $this->posts;
-    }
 }

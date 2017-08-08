@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class PostsController extends Controller
 {
+    protected $itemsLimit = 3;
+    
     /**
      * @Route("/{page}", name = "blog_index", defaults = {"page" = 1}, requirements = {"page" = "\d+"})
      * 
@@ -15,7 +17,20 @@ class PostsController extends Controller
      */
     public function indexAction($page)
     {
-        return array();
+        $PostRepo = $this->getDoctrine()->getRepository('AirblogBundle:Post');
+        //$allposts = $PostRepo->findBy(array(), array('publishedDate' => 'desc'));
+        
+        $qb = $PostRepo->getQueryBuilder(array(
+            'status' => 'published',
+            'orderBy' => 'p.publishedDate',
+            'orderDir' => 'DESC'
+            ));
+        
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($qb, $page, $this->itemsLimit);
+        
+        return ['pagination' => $pagination,
+            ];
     }
     
     /**

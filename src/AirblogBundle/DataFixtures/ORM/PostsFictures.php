@@ -81,7 +81,6 @@ class PostsFixtures extends AbstractFixture implements OrderedFixtureInterface {
         foreach ($postsList as $details) {
             $Post = new Post();
             $Post->setTitle($details['title'])
-                    ->setSlug($details['title'])
                     ->setContent($details['content'])
                     ->setAuthor($details['author'])
                     ->setCreateDate(new \DateTime($details['createDate']));

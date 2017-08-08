@@ -5,8 +5,9 @@ namespace AirblogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AirblogBundle\Repository\PostRepository")
  * @ORM\Table(name="blog_posts")
+ * @ORM\HasLifecycleCallbacks
  */
 class Post {
 
@@ -67,8 +68,7 @@ class Post {
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -77,8 +77,7 @@ class Post {
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -88,8 +87,7 @@ class Post {
      * @param string $title
      * @return Post
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
 
         return $this;
@@ -100,8 +98,7 @@ class Post {
      *
      * @return string 
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
@@ -111,9 +108,8 @@ class Post {
      * @param string $slug
      * @return Post
      */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
+    public function setSlug($slug) {
+        $this->slug = \AirblogBundle\Libs\Utils::sluggify($slug);
 
         return $this;
     }
@@ -123,8 +119,7 @@ class Post {
      *
      * @return string 
      */
-    public function getSlug()
-    {
+    public function getSlug() {
         return $this->slug;
     }
 
@@ -134,8 +129,7 @@ class Post {
      * @param string $content
      * @return Post
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         $this->content = $content;
 
         return $this;
@@ -146,8 +140,7 @@ class Post {
      *
      * @return string 
      */
-    public function getContent()
-    {
+    public function getContent() {
         return $this->content;
     }
 
@@ -157,8 +150,7 @@ class Post {
      * @param string $thumbnail
      * @return Post
      */
-    public function setThumbnail($thumbnail)
-    {
+    public function setThumbnail($thumbnail) {
         $this->thumbnail = $thumbnail;
 
         return $this;
@@ -169,8 +161,7 @@ class Post {
      *
      * @return string 
      */
-    public function getThumbnail()
-    {
+    public function getThumbnail() {
         return $this->thumbnail;
     }
 
@@ -180,8 +171,7 @@ class Post {
      * @param string $author
      * @return Post
      */
-    public function setAuthor($author)
-    {
+    public function setAuthor($author) {
         $this->author = $author;
 
         return $this;
@@ -192,8 +182,7 @@ class Post {
      *
      * @return string 
      */
-    public function getAuthor()
-    {
+    public function getAuthor() {
         return $this->author;
     }
 
@@ -203,8 +192,7 @@ class Post {
      * @param \DateTime $createDate
      * @return Post
      */
-    public function setCreateDate($createDate)
-    {
+    public function setCreateDate($createDate) {
         $this->createDate = $createDate;
 
         return $this;
@@ -215,8 +203,7 @@ class Post {
      *
      * @return \DateTime 
      */
-    public function getCreateDate()
-    {
+    public function getCreateDate() {
         return $this->createDate;
     }
 
@@ -226,8 +213,7 @@ class Post {
      * @param \DateTime $publishedDate
      * @return Post
      */
-    public function setPublishedDate($publishedDate)
-    {
+    public function setPublishedDate($publishedDate) {
         $this->publishedDate = $publishedDate;
 
         return $this;
@@ -238,8 +224,7 @@ class Post {
      *
      * @return \DateTime 
      */
-    public function getPublishedDate()
-    {
+    public function getPublishedDate() {
         return $this->publishedDate;
     }
 
@@ -249,8 +234,7 @@ class Post {
      * @param \AirblogBundle\Entity\Category $category
      * @return Post
      */
-    public function setCategory(\AirblogBundle\Entity\Category $category = null)
-    {
+    public function setCategory(\AirblogBundle\Entity\Category $category = null) {
         $this->category = $category;
 
         return $this;
@@ -261,8 +245,7 @@ class Post {
      *
      * @return \AirblogBundle\Entity\Category 
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->category;
     }
 
@@ -272,8 +255,7 @@ class Post {
      * @param \AirblogBundle\Entity\Tag $tags
      * @return Post
      */
-    public function addTag(\AirblogBundle\Entity\Tag $tags)
-    {
+    public function addTag(\AirblogBundle\Entity\Tag $tags) {
         $this->tags[] = $tags;
 
         return $this;
@@ -284,8 +266,7 @@ class Post {
      *
      * @param \AirblogBundle\Entity\Tag $tags
      */
-    public function removeTag(\AirblogBundle\Entity\Tag $tags)
-    {
+    public function removeTag(\AirblogBundle\Entity\Tag $tags) {
         $this->tags->removeElement($tags);
     }
 
@@ -294,8 +275,18 @@ class Post {
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getTags()
-    {
+    public function getTags() {
         return $this->tags;
     }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function preSave() {
+        if ($this->slug == null) {
+            $this->setSlug($this->getTitle());
+        }
+    }
+
 }
