@@ -20,14 +20,14 @@
             <div class="thumbnail">
                 <div class="meta-data">
                     <div class="categories">
-                        Kategoria: 
-                        <a href="#">{{ post.category.name }}</a>
+                        Kategoria:
+                        <a href="{{ path('blog_category', { 'slug' : post.category.slug }) }}">{{ post.category.name }}</a>
                     </div>
 
                     <div class="tags">
-                        Tagi: 
-                        {% for tags in post %}
-                            <a href="#">{{ tags.name }}</a>
+                        Tagi:
+                        {% for tag in post.tags %}
+                        <a href="{{ path('blog_tag', { 'slug' : tag.slug }) }}">{{ tag.name }}</a>
                         {% endfor %}
                     </div>
                 </div>
