@@ -75,6 +75,7 @@
             <div class="header">
                 <div class="pos-center">
                     <h2 class="left-side">{% spaceless %}{% block contentTitle %}{% endblock %}{% endspaceless %}</h2>
+                    
 
                     {% if hideSearch is not defined %}
                         <form class="right-side" action="{{ path('blog_search') }}">
