@@ -31,11 +31,12 @@
 
                     <div class="menu">
                         <nav>
-                            <ul>
+                            {{ printMenu() }}
+                            {# <ul>
                                 <li><a href="#">HOME</a></li>
                                 <li><a href="#">O MNIE</a></li>
                                 <li><a href="#">KONTAKT</a></li>
-                            </ul>
+                            </ul>#}
                         </nav>
                             {{ categoryList() }}
                         {#  <ul class="categories">
@@ -140,12 +141,13 @@
     <footer id="footer">
         <div class="top">
             <div class="pos-center">
-                <ul>
+                {{ printMenu() }}
+                {#  <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">O mnie</a></li>
                     <li><a href="#">Kontakt</a></li>
                     <li><a href="#">Admin</a></li>
-                </ul>
+                </ul>#}
             </div>
         </div>
 

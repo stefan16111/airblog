@@ -18,7 +18,11 @@ class BlogExtension extends \Twig_Extension {
         return [
             new \Twig_SimpleFunction('categoryList', [$this, 'categoriesList'], [
                 'is_safe' => ['html'],
-                'needs_environment' => true // Tell twig we need the environment
+                'needs_environment' => true
+                    ]),
+            new \Twig_SimpleFunction('printMenu', [$this, 'printMainMenu'], [
+                'is_safe' => ['html'],
+                'needs_environment' => true
                     ]),
         ];
     }
@@ -29,6 +33,15 @@ class BlogExtension extends \Twig_Extension {
             $this->printCategoryList = $categoryRepo->findAll();
         }
         return $env->render("AirblogBundle:Template:categoriesList.html.twig", ['categoriesList' => $this->printCategoryList]);
+    }
+
+    public function printMainMenu(\Twig_Environment $env) {
+        $mainMenu = [
+            'home' => 'blog_index',
+            'o mnie' => 'blog_about',
+            'kontakt' => 'blog_contact'
+        ];
+        return $env->render("AirblogBundle:Template:mainMenu.html.twig", ['mainMenu' => $mainMenu]);
     }
 
     public function getName() {
