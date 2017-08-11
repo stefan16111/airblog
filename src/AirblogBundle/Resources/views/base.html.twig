@@ -37,14 +37,14 @@
                                 <li><a href="#">KONTAKT</a></li>
                             </ul>
                         </nav>
-
-                        <ul class="categories">
+                            {{ categoryList() }}
+                        {#  <ul class="categories">
                             <li><a href="#">Samoloty osobowe i pasażerskie</a></li>
                             <li><a class="active" href="#">Samoloty odrzutowe</a></li>
                             <li><a href="#">Samoloty wojskowe</a></li>
                             <li><a href="#">Proy kosmiczne</a></li>
                             <li><a href="#">Tajne rozwiązania</a></li>
-                        </ul>
+                        </ul>#}
 
                         <!-- 
                         <div class="user-panel">
@@ -93,13 +93,15 @@
                     <div class="right-side sidebar">
                         <div class="menu">
                             <h3>Kategorie</h3>
-                            <ul>
+                            {{ categoryList() }}
+                            
+{#                            <ul>
                                 <li><a href="#">Samoloty osobowe i pasażerskie</a></li>
                                 <li><a class="active" href="#">Samoloty odrzutowe</a></li>
                                 <li><a href="#">Samoloty wojskowe</a></li>
                                 <li><a href="#">Promy kosmiczne</a></li>
                                 <li><a href="#">Tajne rozwiązania</a></li>
-                            </ul>
+                            </ul>#}
                         </div>
 
                         <div class="tag-cloud">

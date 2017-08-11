@@ -2,6 +2,7 @@ services:
     airblog:
         class: AirblogBundle\Twig\Extension\BlogExtension
         arguments: ["@doctrine", "@security.context"]
-        tag:
+        public: false
+        tags:
             - { name: twig.extension }
             
