@@ -30,6 +30,12 @@ class BlogExtension extends \Twig_Extension {
                     ]),
         ];
     }
+    
+    public function getFilters() {
+        return [
+            new \Twig_SimpleFilter('airShorten', [$this, 'shorten'], ['is_safe' => ['html']]),
+        ];
+    }
 
     public function categoriesList(\Twig_Environment $env) {
         if (!isset($this->printCategoryList)) {
@@ -56,6 +62,15 @@ class BlogExtension extends \Twig_Extension {
         return $env->render('AirblogBundle:Template:tagsCloud.html.twig', ['tagsList' => $tagsList]);
     }
 
+    public function shorten($text, $length = 200, $wrapTag = 'p') {
+        $text = strip_tags($text);
+        $text = substr($text, 0, $length).'[...]';
+        $openTag = "<{$wrapTag}>";
+        $closeTag = "</{$wrapTag}>";
+        
+        return $openTag.$text.$closeTag;
+    }
+    
     protected function prepareTagsCloud($tagsList, $limit, $minFontSize, $maxFontSize) {
         $occs = array_map(function($row) {
             return (int) $row['occ'];

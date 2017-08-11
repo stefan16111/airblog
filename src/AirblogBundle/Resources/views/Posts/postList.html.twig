@@ -50,7 +50,7 @@
 
                 <img src="{{ asset('bundles/Airblog/img/default-thumbnail.jpg') }}" alt="">
             </div>
-            {{ post.content|raw }}
+            {{ post.content|airShorten(300) }}
 
             <footer>
                 <a class="comments" href="#">Komentarzy (31)</a>
