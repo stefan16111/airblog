@@ -5,7 +5,7 @@ namespace AirblogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AirblogBundle\Repository\TagRepository")
  * @ORM\Table(name="blog_tags")
  */
 class Tag extends AbstractTaxonomy {
