@@ -15,8 +15,19 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        blog_security:
+            pattern:    ^/
             anonymous: ~
+            form_login:
+                check_path: _check_path
+                login_path: blog_login
+                default_target_path: blog_index
+            logout:
+                path: _logout
+                target: blog_index
+
+        #main:
+            #anonymous: ~
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
