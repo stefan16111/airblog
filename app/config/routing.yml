@@ -1,8 +1,20 @@
-user:
-    resource: "@UserBundle/Controller/"
-    type:     annotation
-    prefix:   /
+#user:
+#    resource: "@UserBundle/Controller/"
+#    type:     annotation
+#    prefix:   /
 
-airblog:
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+#common_user_admin:
+#    resource: "@UserBundle/Resources/config/routing-admin.yml"
+#    prefix:   /admin-panel/users
+
+air_blog:
     resource: "@AirblogBundle/Resources/config/routing.yml"
     prefix:   /
+    
+#air_admin:
+#    resource: "@AirAdminBundle/Resources/config/routing.yml"
+#    prefix:   /admin-panel

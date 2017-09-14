@@ -110,6 +110,10 @@ class User implements AdvancedUserInterface, \Serializable {
         return $this->enabled;
     }
 
+    function __construct() {
+        $this->registerDate = new \DateTime();
+    }
+
     /**
      * Get id
      *

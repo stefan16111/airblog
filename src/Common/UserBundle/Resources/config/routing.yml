@@ -1,7 +1,17 @@
-common_user:
-    resource: "@CommonUserBundle/Controller/"
+#common_user:
+#    resource: "@CommonUserBundle/Controller/"
+#    type:     annotation
+#    prefix:   /
+
+common_user_login:
+    resource: "@UserBundle/Controller/LoginController.php"
     type:     annotation
     prefix:   /
+    
+#common_user_user:
+#    resource: "@UserBundle/Controller/UserController.php"
+#    type:     annotation
+#    prefix:   /
     
 _check_path:
     path: /login-check

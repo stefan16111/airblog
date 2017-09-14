@@ -6,7 +6,7 @@ security:
     providers:
         blog_users:
             entity:
-                class: CommonUserBundle:User
+                class: UserBundle:User
                 property: username
 
     firewalls:
