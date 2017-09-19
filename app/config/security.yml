@@ -25,6 +25,14 @@ security:
             logout:
                 path: _logout
                 target: blog_index
+                
+            remember_me:
+                key:        "%secret%"
+                # 365 days in seconds
+                lifetime: 31536000 
+                path:     /
+                # Defaults to the current domain from $_SERVER
+                domain:   ~ 
 
         #main:
             #anonymous: ~

@@ -3,7 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/airblog/src/Common/UserBundle/Entity/User.php</file>
+            <file>file:/C:/wamp64/www/airblog/src/Common/UserBundle/Resources/views/Login/login.html.twig</file>
+            <file>file:/C:/wamp64/www/airblog/src/Common/UserBundle/Resources/config/routing.yml</file>
+            <file>file:/C:/wamp64/www/airblog/src/Common/UserBundle/Controller/LoginController.php</file>
+            <file>file:/C:/wamp64/www/airblog/app/config/routing.yml</file>
         </group>
     </open-files>
 </project-private>

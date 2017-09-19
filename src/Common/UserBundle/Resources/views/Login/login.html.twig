@@ -9,7 +9,7 @@
 
 {% block content %}
     {% if loginError is defined and loginError is not null %}
-        <div class="notnotification blok">{{ loginError }}</div>
+        <div class="notnotification blok">{{ loginError.message }}</div>
     {% endif %}
 
     <div class="login-register two-cols">
@@ -26,11 +26,11 @@
 
                 <div class="form-row">
                     <label for="passwd" class="required">Hasło</label>
-                    <input id="passwd" type="text" name="_password">
+                    <input id="passwd" type="password" name="_password">
                 </div>
 
                 <label class="checkbox remember">
-                    <input type="checkbox"> Zapamiętaj mnie
+                    <input type="checkbox" name="_remember_me" checked=""> Zapamiętaj mnie
                 </label>
 
                 <button class="btn-green submit">Zaloguj</button>
